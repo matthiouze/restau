@@ -20,12 +20,12 @@ export default function Create() {
                 <div className="rounded-xl border border-sidebar-border/70 p-6 dark:border-sidebar-border">
                     <div className="mb-4 flex items-center justify-between">
                         <h1 className="text-lg font-semibold">Nouvel item</h1>
-                        <Link href={route('menu-item.index')} className="text-sm text-primary underline-offset-4 hover:underline">
+                        <Link href={route('menu-items.index')} className="text-sm text-primary underline-offset-4 hover:underline">
                             Retour à la liste
                         </Link>
                     </div>
 
-                    <Form method="post" action={route('menu-item.store')} className="space-y-6" options={{ preserveScroll: true }}>
+                    <Form method="post" action={route('menu-items.store')} className="space-y-6" options={{ preserveScroll: true }}>
                         {({ processing, errors }) => (
                             <>
                                 <div className="grid gap-2">
@@ -60,7 +60,7 @@ export default function Create() {
                                 <div className="flex items-center gap-3">
                                     <Button disabled={processing}>Ajouter</Button>
                                     <Button asChild variant="outline">
-                                        <Link href={route('menu-item.index')}>Annuler</Link>
+                                        <Link href={route('menu-items.index')}>Annuler</Link>
                                     </Button>
                                 </div>
                             </>

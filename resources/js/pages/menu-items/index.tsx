@@ -13,7 +13,7 @@ type MenuItem = {
     id?: number;
     name: string;
     slug: string;
-    description: string;
+    ingredients: string;
     price: number | string;
 };
 
@@ -29,7 +29,7 @@ export default function Index({ menus_items }: PageProps) {
         const ok = window.confirm(`Supprimer "${item.name}" ? Cette action est irréversible.`);
         if (!ok) return;
 
-        router.delete(route('menu-item.delete'), {
+        router.delete(route('menu-items.delete'), {
             data: { id: item.id },
             preserveScroll: true,
         });
@@ -40,7 +40,10 @@ export default function Index({ menus_items }: PageProps) {
             <Head title="Menu" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
                 <div className="flex items-center justify-end">
-                    <Link className='text-white bg-green-500 hover:bg-green-600 p-2 rounded-md' href={route('menu-item.create')}>Ajouter</Link>
+                    <Link className='text-white bg-green-500 hover:bg-green-600 p-2 rounded-md'
+                          href={route('menu-items.create')}>
+                        Ajouter
+                    </Link>
                 </div>
                 <div className="relative flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <div className="overflow-x-auto">
@@ -70,7 +73,7 @@ export default function Index({ menus_items }: PageProps) {
                                                     })()}
                                             </td>
                                             <td className="px-4 py-3 align-top space-x-2">
-                                                <Link className='text-white bg-blue-500 hover:bg-blue-600 p-2 rounded-md' href={route('menu-item.edit', item.id)}>
+                                                <Link className='text-white bg-blue-500 hover:bg-blue-600 p-2 rounded-md' href={route('menu-items.edit', item.id)}>
                                                     Modifier
                                                 </Link>
                                                 <Link

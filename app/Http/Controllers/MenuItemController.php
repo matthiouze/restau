@@ -34,7 +34,7 @@ class MenuItemController extends Controller
 
         MenuItem::create($validated);
 
-        return redirect()->route('menu-item.index');
+        return redirect()->route('menu-items.index');
     }
 
     public function edit(MenuItem $menuItem): Response
@@ -66,7 +66,7 @@ class MenuItemController extends Controller
             'price' => $validated['price'],
         ]);
 
-        return redirect()->route('menu-item.index');
+        return redirect()->route('menu-items.index');
     }
 
     public function delete(Request $request): RedirectResponse

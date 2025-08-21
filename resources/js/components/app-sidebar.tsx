@@ -18,6 +18,11 @@ const mainNavItems: NavItem[] = [
         href: '/menu-items',
         icon: LayoutGrid,
     },
+    {
+        title: 'Contacts',
+        href: '/contacts',
+        icon: LayoutGrid,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
@@ -53,7 +58,6 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

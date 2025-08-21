@@ -28,12 +28,12 @@ export default function Edit({ menuItem }: { menuItem: MenuItem }) {
                 <div className="rounded-xl border border-sidebar-border/70 p-6 dark:border-sidebar-border">
                     <div className="mb-4 flex items-center justify-between">
                         <h1 className="text-lg font-semibold">Modifier l'item</h1>
-                        <Link href={route('menu-item.index')} className="text-sm text-primary underline-offset-4 hover:underline">
+                        <Link href={route('menu-items.index')} className="text-sm text-primary underline-offset-4 hover:underline">
                             Retour à la liste
                         </Link>
                     </div>
 
-                    <Form method="put" action={route('menu-item.update', menuItem.id)} className="space-y-6" options={{ preserveScroll: true }}>
+                    <Form method="put" action={route('menu-items.update', menuItem.id)} className="space-y-6" options={{ preserveScroll: true }}>
                         {({ processing, errors }) => (
                             <>
                                 <div className="grid gap-2">
@@ -68,7 +68,7 @@ export default function Edit({ menuItem }: { menuItem: MenuItem }) {
                                 <div className="flex items-center gap-3">
                                     <Button disabled={processing}>Mettre à jour</Button>
                                     <Button asChild variant="outline">
-                                        <Link href={route('menu-item.index')}>Annuler</Link>
+                                        <Link href={route('menu-items.index')}>Annuler</Link>
                                     </Button>
                                 </div>
                             </>
