@@ -36,7 +36,6 @@ export default function Index() {
                 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
             </Head>
 
-            {/* Header */}
             <header className="sticky top-0 z-40 w-full border-b border-neutral-200/70 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:border-neutral-800/70 dark:bg-neutral-900/60">
                 <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-6">
                     {/* Logo left */}

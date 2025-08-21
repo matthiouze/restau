@@ -30,9 +30,26 @@ class MenuItemController extends Controller
             'slug' => ['required', 'string', 'max:255', 'alpha_dash', Rule::unique('menu_items', 'slug')],
             'ingredients' => ['nullable', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
+            'media' => ['nullable', 'array'],
+            'media.*' => ['file', 'mimes:jpg,jpeg,png,webp,gif', 'max:12288'],
         ]);
 
-        MenuItem::create($validated);
+        $menuItem = MenuItem::create([
+            'name' => $validated['name'],
+            'slug' => $validated['slug'],
+            'ingredients' => $validated['ingredients'] ?? null,
+            'price' => $validated['price'],
+        ]);
+
+        if ($request->hasFile('media')) {
+            foreach ($request->file('media') as $uploadedFile) {
+                if ($uploadedFile) {
+                    $menuItem
+                        ->addMedia($uploadedFile)
+                        ->toMediaCollection('media');
+                }
+            }
+        }
 
         return redirect()->route('menu-items.index');
     }
@@ -40,23 +57,26 @@ class MenuItemController extends Controller
     public function edit(MenuItem $menuItem): Response
     {
         return Inertia::render('menu-items/edit', [
-            'menuItem' => $menuItem,
+            'menuItem' => $menuItem->load('media'),
         ]);
     }
 
     public function update(MenuItem $menuItem, Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'max:255'],
             'slug' => [
                 'required',
-                'string',
                 'max:255',
                 'alpha_dash',
                 Rule::unique('menu_items', 'slug')->ignore($menuItem->id),
             ],
-            'ingredients' => ['nullable', 'string'],
+            'ingredients' => ['nullable'],
             'price' => ['required', 'numeric', 'min:0'],
+            'media' => ['nullable', 'array'],
+            'media.*' => ['file', 'mimes:jpg,jpeg,png,webp,gif', 'max:12288'],
+            'remove_media_ids' => ['nullable', 'array'],
+            'remove_media_ids.*' => ['integer'],
         ]);
 
         $menuItem->update([
@@ -65,6 +85,28 @@ class MenuItemController extends Controller
             'ingredients' => $validated['ingredients'] ?? null,
             'price' => $validated['price'],
         ]);
+
+        // Remove selected media if requested
+        $idsToRemove = collect($request->input('remove_media_ids', []))
+            ->filter(fn ($id) => is_numeric($id))
+            ->map(fn ($id) => (int) $id)
+            ->all();
+        if (!empty($idsToRemove)) {
+            $menuItem->media()->whereIn('id', $idsToRemove)->each(function ($media) {
+                $media->delete();
+            });
+        }
+
+        // Attach new uploads
+        if ($request->hasFile('media')) {
+            foreach ($request->file('media') as $uploadedFile) {
+                if ($uploadedFile) {
+                    $menuItem
+                        ->addMedia($uploadedFile)
+                        ->toMediaCollection('media');
+                }
+            }
+        }
 
         return redirect()->route('menu-items.index');
     }

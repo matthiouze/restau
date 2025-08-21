@@ -12,6 +12,7 @@ type MenuItem = {
     slug: string;
     ingredients: string;
     price: number | string;
+    media?: Array<{ id: number; name: string; file_name: string }>;
 };
 
 export default function Edit({ menuItem }: { menuItem: MenuItem }) {
@@ -28,12 +29,17 @@ export default function Edit({ menuItem }: { menuItem: MenuItem }) {
                 <div className="rounded-xl border border-sidebar-border/70 p-6 dark:border-sidebar-border">
                     <div className="mb-4 flex items-center justify-between">
                         <h1 className="text-lg font-semibold">Modifier l'item</h1>
-                        <Link href={route('menu-items.index')} className="text-sm text-primary underline-offset-4 hover:underline">
+                        <Link href={route('menu-items.index')}
+                              className="text-sm text-primary underline-offset-4 hover:underline">
                             Retour à la liste
                         </Link>
                     </div>
 
-                    <Form method="put" action={route('menu-items.update', menuItem.id)} className="space-y-6" options={{ preserveScroll: true }}>
+                    <Form method="put"
+                          action={route('menu-items.update', menuItem.id)}
+                          className="space-y-6"
+                          options={{ preserveScroll: true }}
+                          encType="multipart/form-data">
                         {({ processing, errors }) => (
                             <>
                                 <div className="grid gap-2">
@@ -61,8 +67,36 @@ export default function Edit({ menuItem }: { menuItem: MenuItem }) {
 
                                 <div className="grid gap-2">
                                     <Label htmlFor="price">Prix</Label>
-                                    <Input id="price" name="price" type="number" step="0.01" min="0" required defaultValue={menuItem.price} />
+                                    <Input id="price"
+                                           name="price"
+                                           type="number"
+                                           step="0.01"
+                                           min="0"
+                                           required
+                                           defaultValue={menuItem.price} />
                                     <InputError className="mt-2" message={errors.price} />
+                                </div>
+
+                                <div className="grid gap-2">
+                                    <Label>Médias existants</Label>
+                                    <div className="flex flex-wrap gap-3">
+                                        {(menuItem.media ?? []).map((m) => (
+                                            <label key={m.id} className="flex items-center gap-2">
+                                                <img src={m.name}
+                                                     alt={m.file_name}
+                                                     className="w-16 rounded object-cover border" />
+                                                <input type="checkbox" name="remove_media_ids[]" value={m.id} />
+                                                <span className="text-xs">Supprimer</span>
+                                            </label>
+                                        ))}
+                                    </div>
+                                    <InputError className="mt-2" message={errors.remove_media_ids} />
+                                </div>
+
+                                <div className="grid gap-2">
+                                    <Label htmlFor="media">Ajouter des médias</Label>
+                                    <Input id="media" name="media[]" type="file" multiple accept="image/*" />
+                                    <InputError className="mt-2" message={errors.media} />
                                 </div>
 
                                 <div className="flex items-center gap-3">

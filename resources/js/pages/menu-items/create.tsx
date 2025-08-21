@@ -20,23 +20,36 @@ export default function Create() {
                 <div className="rounded-xl border border-sidebar-border/70 p-6 dark:border-sidebar-border">
                     <div className="mb-4 flex items-center justify-between">
                         <h1 className="text-lg font-semibold">Nouvel item</h1>
-                        <Link href={route('menu-items.index')} className="text-sm text-primary underline-offset-4 hover:underline">
+                        <Link href={route('menu-items.index')}
+                              className="text-sm text-primary underline-offset-4 hover:underline">
                             Retour à la liste
                         </Link>
                     </div>
 
-                    <Form method="post" action={route('menu-items.store')} className="space-y-6" options={{ preserveScroll: true }}>
+                    <Form method="post"
+                          action={route('menu-items.store')}
+                          className="space-y-6"
+                          options={{ preserveScroll: true }}
+                          encType="multipart/form-data">
                         {({ processing, errors }) => (
                             <>
                                 <div className="grid gap-2">
                                     <Label htmlFor="name">Nom</Label>
-                                    <Input id="name" name="name" required placeholder="Nom de l'item" autoComplete="off" />
+                                    <Input id="name"
+                                           name="name"
+                                           required
+                                           placeholder="Nom de l'item"
+                                           autoComplete="off" />
                                     <InputError className="mt-2" message={errors.name} />
                                 </div>
 
                                 <div className="grid gap-2">
                                     <Label htmlFor="slug">Slug</Label>
-                                    <Input id="slug" name="slug" required placeholder="ex: pizza-margherita" autoComplete="off" />
+                                    <Input id="slug"
+                                           name="slug"
+                                           required
+                                           placeholder="ex: pizza-margherita"
+                                           autoComplete="off" />
                                     <InputError className="mt-2" message={errors.slug} />
                                 </div>
 
@@ -53,8 +66,20 @@ export default function Create() {
 
                                 <div className="grid gap-2">
                                     <Label htmlFor="price">Prix</Label>
-                                    <Input id="price" name="price" type="number" step="0.01" min="0" required placeholder="0.00" />
+                                    <Input id="price"
+                                           name="price"
+                                           type="number"
+                                           step="0.01"
+                                           min="0"
+                                           required
+                                           placeholder="0.00" />
                                     <InputError className="mt-2" message={errors.price} />
+                                </div>
+
+                                <div className="grid gap-2">
+                                    <Label htmlFor="media">Médias (images)</Label>
+                                    <Input id="media" name="media[]" type="file" multiple accept="image/*" />
+                                    <InputError className="mt-2" message={errors.media} />
                                 </div>
 
                                 <div className="flex items-center gap-3">
