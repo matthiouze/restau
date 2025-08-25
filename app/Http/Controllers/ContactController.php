@@ -9,6 +9,8 @@ use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\Rule;
 use App\Enum\Reason;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactSubmitted;
 
 class ContactController extends Controller
 {
@@ -30,9 +32,13 @@ class ContactController extends Controller
             'message' => ['nullable', 'string'],
         ]);
 
-        Contact::create($validated);
+        $contact = Contact::create($validated);
 
-        return redirect()->route('home');
+        if (!empty(config('app.mail_admin'))) {
+            Mail::to(config('app.mail_admin'))->send(new ContactSubmitted($validated + ['id' => $contact->id]));
+        }
+
+        return redirect()->route('home')->with('success', 'Votre message a bien été envoyé.');
     }
 
     public function show(Contact $contact): Response

@@ -14,6 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'mail_admin' => env('MAIL_ADMIN', null),
 
     /*
     |--------------------------------------------------------------------------

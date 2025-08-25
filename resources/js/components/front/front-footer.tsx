@@ -1,5 +1,5 @@
 import { useForm, usePage } from '@inertiajs/react';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import type { SharedData, Timetable } from '@/types';
 
 export default function FrontFooter() {
@@ -14,13 +14,17 @@ export default function FrontFooter() {
         message: '',
     });
 
+    const [success, setSuccess] = useState<string | null>(null);
+
     const isBooking = useMemo(() => data.reason === 'booking', [data.reason]);
 
     function submit(e: React.FormEvent) {
         e.preventDefault();
+        setSuccess(null);
         post(route('contacts.store'), {
             onSuccess: () => {
                 reset();
+                setSuccess('Votre message a été envoyé. Nous vous répondrons rapidement.');
             },
             preserveScroll: true,
         });
@@ -49,71 +53,75 @@ export default function FrontFooter() {
                             </p>
                         </div>
                         {(() => {
-                            const visible = timetables.filter((tt) =>
-                                Boolean(tt.start_am || tt.end_am || tt.start_pm || tt.end_pm)
+                            const dayLabel: Record<string, string> = {
+                                monday: 'Lundi',
+                                tuesday: 'Mardi',
+                                wednesday: 'Mercredi',
+                                thursday: 'Jeudi',
+                                friday: 'Vendredi',
+                                saturday: 'Samedi',
+                                sunday: 'Dimanche',
+                            };
+
+                            return (
+                                <div className="pt-2">
+                                    <span className="font-medium">Horaires:</span>
+                                    <ul className="mt-2 space-y-1">
+                                        {timetables.map((tt) => {
+                                            const hasAm = Boolean(tt.start_am || tt.end_am);
+                                            const hasPm = Boolean(tt.start_pm || tt.end_pm);
+                                            const hasAnyHours = hasAm || hasPm;
+                                            
+                                            return (
+                                                <li key={tt.id}
+                                                    itemProp="openingHoursSpecification"
+                                                    itemScope
+                                                    itemType="https://schema.org/OpeningHoursSpecification">
+                                                    <meta itemProp="dayOfWeek" content={tt.day} />
+                                                    <span className="inline-block w-28">{dayLabel[tt.day] ?? tt.day}</span>
+                                                    {hasAnyHours ? (
+                                                        <>
+                                                            {hasAm && (
+                                                                <>
+                                                                    {tt.start_am && (
+                                                                        <time itemProp="opens" dateTime={tt.start_am as string}>
+                                                                            {tt.start_am}
+                                                                        </time>
+                                                                    )}
+                                                                    {tt.start_am && tt.end_am && <span>{' - '}</span>}
+                                                                    {tt.end_am && (
+                                                                        <time itemProp="closes" dateTime={tt.end_am as string}>
+                                                                            {tt.end_am}
+                                                                        </time>
+                                                                    )}
+                                                                </>
+                                                            )}
+                                                            {hasAm && hasPm && <span className="mx-1">/</span>}
+                                                            {hasPm && (
+                                                                <>
+                                                                    {tt.start_pm && (
+                                                                        <time itemProp="opens" dateTime={tt.start_pm as string}>
+                                                                            {tt.start_pm}
+                                                                        </time>
+                                                                    )}
+                                                                    {tt.start_pm && tt.end_pm && <span>{' - '}</span>}
+                                                                    {tt.end_pm && (
+                                                                        <time itemProp="closes" dateTime={tt.end_pm as string}>
+                                                                            {tt.end_pm}
+                                                                        </time>
+                                                                    )}
+                                                                </>
+                                                            )}
+                                                        </>
+                                                    ) : (
+                                                        <span className="text-neutral-500 dark:text-neutral-400">Fermé</span>
+                                                    )}
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                </div>
                             );
-                            return visible.length > 0 ? (
-                            <div className="pt-2">
-                                <span className="font-medium">Horaires:</span>
-                                <ul className="mt-2 space-y-1">
-                                    {visible.map((tt) => {
-                                        const hasAm = Boolean(tt.start_am || tt.end_am);
-                                        const hasPm = Boolean(tt.start_pm || tt.end_pm);
-                                        const dayLabel: Record<string, string> = {
-                                            monday: 'Lundi',
-                                            tuesday: 'Mardi',
-                                            wednesday: 'Mercredi',
-                                            thursday: 'Jeudi',
-                                            friday: 'Vendredi',
-                                            saturday: 'Samedi',
-                                            sunday: 'Dimanche',
-                                        };
-                                        return (
-                                            <li key={tt.id}
-                                                itemProp="openingHoursSpecification"
-                                                itemScope
-                                                itemType="https://schema.org/OpeningHoursSpecification">
-                                                <meta itemProp="dayOfWeek" content={tt.day} />
-                                                <span className="inline-block w-28">{dayLabel[tt.day] ?? tt.day}</span>
-                                                <>
-                                                    {hasAm && (
-                                                        <>
-                                                            {tt.start_am && (
-                                                                <time itemProp="opens" dateTime={tt.start_am as string}>
-                                                                    {tt.start_am}
-                                                                </time>
-                                                            )}
-                                                            {tt.start_am && tt.end_am && <span>{' - '}</span>}
-                                                            {tt.end_am && (
-                                                                <time itemProp="closes" dateTime={tt.end_am as string}>
-                                                                    {tt.end_am}
-                                                                </time>
-                                                            )}
-                                                        </>
-                                                    )}
-                                                    {hasAm && hasPm && <span className="mx-1">/</span>}
-                                                    {hasPm && (
-                                                        <>
-                                                            {tt.start_pm && (
-                                                                <time itemProp="opens" dateTime={tt.start_pm as string}>
-                                                                    {tt.start_pm}
-                                                                </time>
-                                                            )}
-                                                            {tt.start_pm && tt.end_pm && <span>{' - '}</span>}
-                                                            {tt.end_pm && (
-                                                                <time itemProp="closes" dateTime={tt.end_pm as string}>
-                                                                    {tt.end_pm}
-                                                                </time>
-                                                            )}
-                                                        </>
-                                                    )}
-                                                </>
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
-                            </div>
-                            ) : null;
                         })()}
                     </div>
 
@@ -126,6 +134,13 @@ export default function FrontFooter() {
                         <section itemScope itemType="https://schema.org/ContactPage" className="mt-6">
                             <meta itemProp="name" content="Page de contact" />
                             <meta itemProp="description" content="Formulaire de contact et réservation pour le Restaurant Le Gourmet" />
+
+                            {success && (
+                                <div className="mb-4 rounded-md border border-green-200 bg-green-50 p-3 text-sm text-green-800 dark:border-green-900/50 dark:bg-green-950 dark:text-green-200">
+                                    {success}
+                                </div>
+                            )}
+
                             <form
                                 onSubmit={submit}
                                 itemProp="mainEntity"
