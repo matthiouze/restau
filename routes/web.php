@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\TimetableController;
 use App\Models\MenuItem;
 
 Route::get('/', function () {
@@ -71,6 +72,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('contacts', [ContactController::class, 'index'])->name('contacts.index');
     Route::get('contacts/{contact}', [ContactController::class, 'show'])->name('contacts.show');
     Route::delete('contacts', [ContactController::class, 'delete'])->name('contacts.delete');
+
+    Route::get('timetables', [TimetableController::class, 'index'])->name('timetables.index');
+    Route::put('timetables', [TimetableController::class, 'bulkUpdate'])->name('timetables.bulk-update');
+    Route::put('timetables/{timetable}', [TimetableController::class, 'update'])->name('timetables.update');
 });
 
 require __DIR__.'/settings.php';
