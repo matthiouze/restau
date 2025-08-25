@@ -16,7 +16,6 @@ export default function Index() {
                 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
             </Head>
 
-            {/* Hero with parallax */}
             <section
                 className="relative flex h-[60vh] items-center justify-center bg-neutral-200 text-center text-white md:h-[70vh]"
                 style={{

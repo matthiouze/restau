@@ -32,42 +32,27 @@ class TimetableController extends Controller
         ]);
     }
 
-    public function update(Request $request, Timetable $timetable): RedirectResponse
-    {
-        $validated = $request->validate([
-            'start_am' => ['nullable', 'date_format:H:i'],
-            'end_am' => ['nullable', 'date_format:H:i'],
-            'start_pm' => ['nullable', 'date_format:H:i'],
-            'end_pm' => ['nullable', 'date_format:H:i'],
-        ]);
-
-        $timetable->update($validated);
-
-        return back()->with('success', 'Horaires mis à jour.');
-    }
-
-    public function bulkUpdate(Request $request): RedirectResponse
+    public function update(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'rows' => ['required', 'array'],
-            'rows.*.id' => ['required', 'integer', 'exists:timetables,id'],
-            'rows.*.start_am' => ['nullable', 'date_format:H:i'],
-            'rows.*.end_am' => ['nullable', 'date_format:H:i'],
-            'rows.*.start_pm' => ['nullable', 'date_format:H:i'],
-            'rows.*.end_pm' => ['nullable', 'date_format:H:i'],
+           'rows'            => ['required', 'array'],
+           'rows.*.id'       => ['required', 'integer', 'exists:timetables,id'],
+           'rows.*.start_am' => ['nullable', 'date_format:H:i'],
+           'rows.*.end_am'   => ['nullable', 'date_format:H:i'],
+           'rows.*.start_pm' => ['nullable', 'date_format:H:i'],
+           'rows.*.end_pm'   => ['nullable', 'date_format:H:i'],
         ]);
 
         foreach ($data['rows'] as $row) {
-            /** @var Timetable $tt */
             $tt = Timetable::find($row['id']);
             $tt->update([
                 'start_am' => Arr::get($row, 'start_am'),
-                'end_am' => Arr::get($row, 'end_am'),
+                'end_am'   => Arr::get($row, 'end_am'),
                 'start_pm' => Arr::get($row, 'start_pm'),
-                'end_pm' => Arr::get($row, 'end_pm'),
+                'end_pm'   => Arr::get($row, 'end_pm'),
             ]);
         }
 
-        return back()->with('success', 'Horaires mis à jour.');
+        return back()->with('success', 'Horaires mis à jour');
     }
 }

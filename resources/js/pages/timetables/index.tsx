@@ -40,7 +40,7 @@ export default function Index({ timetables }: PageProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Horaires" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
-                <form onSubmit={(e) => { e.preventDefault(); put(route('timetables.bulk-update'), { preserveScroll: true, preserveState: true }); }}
+                <form onSubmit={(e) => { e.preventDefault(); put(route('timetables.update'), { preserveScroll: true, preserveState: true }); }}
                       className="relative flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <div className="overflow-x-auto">
                         <table className="min-w-full text-sm">

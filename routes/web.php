@@ -57,6 +57,8 @@ Route::get('menu/{slug}', function (string $slug) {
 
 Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
 
+Route::get('sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap.index');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
@@ -74,8 +76,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('contacts', [ContactController::class, 'delete'])->name('contacts.delete');
 
     Route::get('timetables', [TimetableController::class, 'index'])->name('timetables.index');
-    Route::put('timetables', [TimetableController::class, 'bulkUpdate'])->name('timetables.bulk-update');
-    Route::put('timetables/{timetable}', [TimetableController::class, 'update'])->name('timetables.update');
+    Route::put('timetables', [TimetableController::class, 'update'])->name('timetables.update');
 });
 
 require __DIR__.'/settings.php';
