@@ -19,9 +19,6 @@ export default function FrontHeader() {
             <li>
                 <Link href={route('menu')} className="text-neutral-700 hover:text-neutral-900 dark:text-neutral-200 dark:hover:text-white">Menu</Link>
             </li>
-            <li>
-                <a href="#contact" onClick={scrollToContact} className="text-neutral-700 hover:text-neutral-900 dark:text-neutral-200 dark:hover:text-white">Contact</a>
-            </li>
         </ul>
     );
 
@@ -41,7 +38,7 @@ export default function FrontHeader() {
                     <a
                         href="#contact"
                         onClick={scrollToContact}
-                        className="inline-flex items-center rounded-full bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-neutral-900"
+                        className="inline-flex items-center rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-neutral-900"
                     >
                         Contact
                     </a>

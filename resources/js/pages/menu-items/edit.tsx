@@ -12,7 +12,7 @@ type MenuItem = {
     slug: string;
     ingredients: string;
     price: number | string;
-    media?: Array<{ id: number; name: string; file_name: string }>;
+    media?: Array<{ id: number; name: string; file_name: string; url: string }>;
 };
 
 export default function Edit({ menuItem }: { menuItem: MenuItem }) {
@@ -82,8 +82,8 @@ export default function Edit({ menuItem }: { menuItem: MenuItem }) {
                                     <div className="flex flex-wrap gap-3">
                                         {(menuItem.media ?? []).map((m) => (
                                             <label key={m.id} className="flex items-center gap-2">
-                                                <img src={m.name}
-                                                     alt={m.file_name}
+                                                <img src={m.url}
+                                                     alt={m.name}
                                                      className="w-16 rounded object-cover border" />
                                                 <input type="checkbox" name="remove_media_ids[]" value={m.id} />
                                                 <span className="text-xs">Supprimer</span>

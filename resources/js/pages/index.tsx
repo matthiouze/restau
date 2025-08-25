@@ -50,7 +50,6 @@ export default function Index() {
                 </div>
             </section>
 
-            {/* Centered placeholder content */}
             <main className="mx-auto max-w-6xl px-4 py-16 md:px-6">
                 <div className="mx-auto max-w-3xl text-center">
                     <h2 className="text-2xl font-semibold text-neutral-900 dark:text-neutral-100">Une expérience gourmande</h2>
@@ -61,7 +60,6 @@ export default function Index() {
                     </p>
                 </div>
 
-                {/* Simple grid of placeholders */}
                 <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {[1, 2, 3, 4, 5, 6].map((i) => (
                         <div key={i} className="rounded-xl border border-neutral-200 p-6 shadow-sm dark:border-neutral-800">

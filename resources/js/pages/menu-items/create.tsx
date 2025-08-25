@@ -61,7 +61,7 @@ export default function Create() {
                                         placeholder="Description de l'item"
                                         className="border-input placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground flex min-h-24 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] md:text-sm"
                                     />
-                                    <InputError className="mt-2" message={errors.description} />
+                                    <InputError className="mt-2" message={errors.ingredients} />
                                 </div>
 
                                 <div className="grid gap-2">

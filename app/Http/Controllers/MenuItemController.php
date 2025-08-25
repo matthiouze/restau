@@ -56,8 +56,24 @@ class MenuItemController extends Controller
 
     public function edit(MenuItem $menuItem): Response
     {
+        $media = $menuItem->getMedia('media')->map(function ($media) {
+            return [
+                'id' => $media->id,
+                'name' => $media->name,
+                'file_name' => $media->file_name,
+                'url' => $media->getUrl(),
+            ];
+        });
+
         return Inertia::render('menu-items/edit', [
-            'menuItem' => $menuItem->load('media'),
+            'menuItem' => [
+                'id' => $menuItem->id,
+                'name' => $menuItem->name,
+                'slug' => $menuItem->slug,
+                'ingredients' => $menuItem->ingredients,
+                'price' => $menuItem->price,
+                'media' => $media,
+            ],
         ]);
     }
 
@@ -86,7 +102,6 @@ class MenuItemController extends Controller
             'price' => $validated['price'],
         ]);
 
-        // Remove selected media if requested
         $idsToRemove = collect($request->input('remove_media_ids', []))
             ->filter(fn ($id) => is_numeric($id))
             ->map(fn ($id) => (int) $id)
@@ -97,7 +112,6 @@ class MenuItemController extends Controller
             });
         }
 
-        // Attach new uploads
         if ($request->hasFile('media')) {
             foreach ($request->file('media') as $uploadedFile) {
                 if ($uploadedFile) {
