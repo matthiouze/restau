@@ -1,7 +1,10 @@
-import { useForm } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import { useMemo } from 'react';
+import type { SharedData, Timetable } from '@/types';
 
 export default function FrontFooter() {
+    const { props } = usePage<{ ziggy: unknown } & SharedData>();
+    const timetables = (props.timetables as Timetable[] | undefined) ?? [];
     const { data, setData, post, processing, reset } = useForm({
         name: '',
         email: '',
@@ -45,13 +48,73 @@ export default function FrontFooter() {
                                 <span className="font-medium">Email:</span> <a href="mailto:contact@legourmet.fr" itemProp="email">contact@legourmet.fr</a>
                             </p>
                         </div>
-                        <div itemProp="openingHoursSpecification" itemScope itemType="https://schema.org/OpeningHoursSpecification">
-                            <p className="pt-2">
-                                <span className="font-medium">Horaires:</span><br />
-                                <span itemProp="dayOfWeek">Lundi</span> - <span itemProp="dayOfWeek">Samedi</span>: <span itemProp="opens">12:00</span> - <span itemProp="closes">14:30</span> et <span itemProp="opens">19:00</span> - <span itemProp="closes">22:30</span><br />
-                                <span itemProp="dayOfWeek">Dimanche</span>: <span itemProp="opens">19:00</span> - <span itemProp="closes">22:00</span>
-                            </p>
-                        </div>
+                        {(() => {
+                            const visible = timetables.filter((tt) =>
+                                Boolean(tt.start_am || tt.end_am || tt.start_pm || tt.end_pm)
+                            );
+                            return visible.length > 0 ? (
+                            <div className="pt-2">
+                                <span className="font-medium">Horaires:</span>
+                                <ul className="mt-2 space-y-1">
+                                    {visible.map((tt) => {
+                                        const hasAm = Boolean(tt.start_am || tt.end_am);
+                                        const hasPm = Boolean(tt.start_pm || tt.end_pm);
+                                        const dayLabel: Record<string, string> = {
+                                            monday: 'Lundi',
+                                            tuesday: 'Mardi',
+                                            wednesday: 'Mercredi',
+                                            thursday: 'Jeudi',
+                                            friday: 'Vendredi',
+                                            saturday: 'Samedi',
+                                            sunday: 'Dimanche',
+                                        };
+                                        return (
+                                            <li key={tt.id}
+                                                itemProp="openingHoursSpecification"
+                                                itemScope
+                                                itemType="https://schema.org/OpeningHoursSpecification">
+                                                <meta itemProp="dayOfWeek" content={tt.day} />
+                                                <span className="inline-block w-28">{dayLabel[tt.day] ?? tt.day}</span>
+                                                <>
+                                                    {hasAm && (
+                                                        <>
+                                                            {tt.start_am && (
+                                                                <time itemProp="opens" dateTime={tt.start_am as string}>
+                                                                    {tt.start_am}
+                                                                </time>
+                                                            )}
+                                                            {tt.start_am && tt.end_am && <span>{' - '}</span>}
+                                                            {tt.end_am && (
+                                                                <time itemProp="closes" dateTime={tt.end_am as string}>
+                                                                    {tt.end_am}
+                                                                </time>
+                                                            )}
+                                                        </>
+                                                    )}
+                                                    {hasAm && hasPm && <span className="mx-1">/</span>}
+                                                    {hasPm && (
+                                                        <>
+                                                            {tt.start_pm && (
+                                                                <time itemProp="opens" dateTime={tt.start_pm as string}>
+                                                                    {tt.start_pm}
+                                                                </time>
+                                                            )}
+                                                            {tt.start_pm && tt.end_pm && <span>{' - '}</span>}
+                                                            {tt.end_pm && (
+                                                                <time itemProp="closes" dateTime={tt.end_pm as string}>
+                                                                    {tt.end_pm}
+                                                                </time>
+                                                            )}
+                                                        </>
+                                                    )}
+                                                </>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </div>
+                            ) : null;
+                        })()}
                     </div>
 
                     <div>

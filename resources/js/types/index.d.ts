@@ -28,6 +28,7 @@ export interface SharedData {
     auth: Auth;
     ziggy: Config & { location: string };
     sidebarOpen: boolean;
+    timetables?: Timetable[];
     [key: string]: unknown;
 }
 
@@ -40,4 +41,13 @@ export interface User {
     created_at: string;
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
+}
+
+export interface Timetable {
+    id: number;
+    day: string;
+    start_am?: string | null;
+    end_am?: string | null;
+    start_pm?: string | null;
+    end_pm?: string | null;
 }

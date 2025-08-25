@@ -6,6 +6,7 @@ use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
+use App\Models\Timetable;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -46,6 +47,17 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'timetables' => fn () => Timetable::query()
+                ->orderBy('id')
+                ->get()
+                ->map(fn (Timetable $tt) => [
+                    'id' => $tt->id,
+                    'day' => $tt->day,
+                    'start_am' => $tt->start_am,
+                    'end_am' => $tt->end_am,
+                    'start_pm' => $tt->start_pm,
+                    'end_pm' => $tt->end_pm,
+                ]),
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
