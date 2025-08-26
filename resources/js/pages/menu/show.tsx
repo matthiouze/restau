@@ -39,17 +39,19 @@ export default function MenuShow({ item, gallery }: PageProps) {
 
     return (
         <FrontLayout>
-            <Head title={item.name} />
+            <Head title={item.name}>
+                <meta name="description" content="Meta desc menu show" />
+            </Head>
             <section className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                     <div>
                         <div className="overflow-hidden rounded-xl border border-sidebar-border/70 bg-white dark:border-sidebar-border dark:bg-neutral-900">
                             <div className="relative aspect-[4/3] w-full bg-neutral-100 dark:bg-neutral-800">
                                 {item.preview_url ? (
-                                    <img 
-                                        src={item.preview_url} 
-                                        alt={item.name} 
-                                        className="h-full w-full object-cover cursor-pointer hover:opacity-80 transition-opacity" 
+                                    <img
+                                        src={item.preview_url}
+                                        alt={item.name}
+                                        className="h-full w-full object-cover cursor-pointer hover:opacity-80 transition-opacity"
                                         onClick={() => item.preview_url && openImageModal({ id: 0, url: item.preview_url, name: item.name })}
                                     />
                                 ) : (
@@ -60,8 +62,8 @@ export default function MenuShow({ item, gallery }: PageProps) {
                         {gallery && gallery.length > 0 && (
                             <div className="mt-4 grid grid-cols-4 gap-3 sm:grid-cols-6">
                                 {gallery.map((g) => (
-                                    <div 
-                                        key={g.id} 
+                                    <div
+                                        key={g.id}
                                         className="overflow-hidden rounded-md border border-sidebar-border/70 dark:border-sidebar-border cursor-pointer hover:opacity-80 transition-opacity"
                                         onClick={() => openImageModal(g)}
                                     >
@@ -88,14 +90,14 @@ export default function MenuShow({ item, gallery }: PageProps) {
 
             {/* Modal pour afficher l'image en plus grand */}
             {isModalOpen && selectedImage && (
-                <div 
+                <div
                     className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
                     onClick={closeImageModal}
                 >
                     <div className="relative max-h-full max-w-full">
-                        <img 
-                            src={selectedImage.url} 
-                            alt={selectedImage.name} 
+                        <img
+                            src={selectedImage.url}
+                            alt={selectedImage.name}
                             className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg"
                         />
                         <button

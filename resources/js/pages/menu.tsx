@@ -19,7 +19,9 @@ export default function MenuIndex({ items }: PageProps) {
 
     return (
         <FrontLayout>
-            <Head title="Menu" />
+            <Head title="Menu">
+                <meta name="description" content="Meta desc menu" />
+            </Head>
             <section className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-semibold tracking-tight">Notre menu</h1>
                 <p className="mt-2 text-muted-foreground">Découvrez nos plats et spécialités.</p>
@@ -41,7 +43,9 @@ export default function MenuIndex({ items }: PageProps) {
                                             loading="lazy"
                                         />
                                     ) : (
-                                        <div className="flex h-full w-full items-center justify-center text-neutral-400">Aperçu indisponible</div>
+                                        <div className="flex h-full w-full items-center justify-center text-neutral-400">
+                                            Aperçu indisponible
+                                        </div>
                                     )}
                                 </div>
                                 <div className="flex flex-col gap-1 p-4">
@@ -57,7 +61,9 @@ export default function MenuIndex({ items }: PageProps) {
                                         </span>
                                     </div>
                                     {item.ingredients && (
-                                        <p className="line-clamp-2 text-sm text-muted-foreground">{item.ingredients}</p>
+                                        <p className="line-clamp-2 text-sm text-muted-foreground">
+                                            {item.ingredients}
+                                        </p>
                                     )}
                                 </div>
                             </Link>

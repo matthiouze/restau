@@ -11,9 +11,11 @@ export default function Index() {
 
     return (
         <FrontLayout>
-            <Head title="Accueil">
+            <Head>
+                <title>Accueil</title>
                 <link rel="preconnect" href="https://fonts.bunny.net" />
                 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+                <meta name="description" content="Meta desc index" />
             </Head>
 
             <section
@@ -27,10 +29,8 @@ export default function Index() {
             >
                 <div className="absolute inset-0 bg-black/40"></div>
                 <div className="relative z-10 mx-auto max-w-3xl px-6">
-                    <h1 className="text-3xl font-bold leading-tight md:text-5xl">Bienvenue chez Restau</h1>
-                    <p className="mt-4 text-base text-neutral-100 md:text-lg">
-                        Cuisine de saison, produits frais et ambiance conviviale.
-                    </p>
+                    <h1 className="text-3xl leading-tight font-bold md:text-5xl">Bienvenue chez Restau</h1>
+                    <p className="mt-4 text-base text-neutral-100 md:text-lg">Cuisine de saison, produits frais et ambiance conviviale.</p>
                     <div className="mt-6 flex items-center justify-center gap-3">
                         <Link
                             href={route('menu')}
@@ -53,9 +53,8 @@ export default function Index() {
                 <div className="mx-auto max-w-3xl text-center">
                     <h2 className="text-2xl font-semibold text-neutral-900 dark:text-neutral-100">Une expérience gourmande</h2>
                     <p className="mt-4 text-neutral-600 dark:text-neutral-300">
-                        Découvrez une carte créative, élaborée avec des ingrédients locaux sélectionnés avec soin. Que ce soit pour
-                        un déjeuner entre amis, un dîner romantique ou une réservation de groupe, notre équipe vous accueille avec
-                        le sourire.
+                        Découvrez une carte créative, élaborée avec des ingrédients locaux sélectionnés avec soin. Que ce soit pour un déjeuner entre
+                        amis, un dîner romantique ou une réservation de groupe, notre équipe vous accueille avec le sourire.
                     </p>
                 </div>
 
