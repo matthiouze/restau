@@ -5,59 +5,15 @@ use Inertia\Inertia;
 use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\TimetableController;
-use App\Models\MenuItem;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\SitemapController;
 
-Route::get('/', function () {
-    return Inertia::render('index');
-})->name('home');
-
-Route::get('menu', function () {
-    $items = MenuItem::query()
-        ->orderBy('name')
-        ->get()
-        ->map(function (MenuItem $item) {
-            return [
-                'id' => $item->id,
-                'name' => $item->name,
-                'slug' => $item->slug,
-                'ingredients' => $item->ingredients,
-                'price' => $item->price,
-                'preview_url' => $item->getFirstMediaUrl('media') ?: null,
-            ];
-        });
-
-    return Inertia::render('menu', [
-        'items' => $items,
-    ]);
-})->name('menu');
-
-Route::get('menu/{slug}', function (string $slug) {
-    $item = MenuItem::query()->where('slug', $slug)->firstOrFail();
-
-    $gallery = $item->getMedia('media')->map(function ($media) {
-        return [
-            'id' => $media->id,
-            'url' => $media->getUrl(),
-            'name' => $media->name,
-        ];
-    });
-
-    return Inertia::render('menu/show', [
-        'item' => [
-            'id' => $item->id,
-            'name' => $item->name,
-            'slug' => $item->slug,
-            'ingredients' => $item->ingredients,
-            'price' => $item->price,
-            'preview_url' => $item->getFirstMediaUrl('media') ?: null,
-        ],
-        'gallery' => $gallery,
-    ]);
-})->name('menu.show');
-
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('menu', [MenuController::class, 'index'])->name('menu');
+Route::get('menu/{slug}', [MenuController::class, 'show'])->name('menu.show');
 Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
-
-Route::get('sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap.index');
+Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {

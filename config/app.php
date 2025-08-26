@@ -14,7 +14,9 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-    'mail_admin' => env('MAIL_ADMIN', null),
+    'mail_admin' => env('MAIL_ADMIN'),
+    'is_closed' => env('IS_CLOSED', false),
+    'is_closed_until' => env('IS_CLOSED_UNTIL'),
 
     /*
     |--------------------------------------------------------------------------
