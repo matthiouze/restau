@@ -7,7 +7,7 @@ import type { SharedData } from '@/types';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 
 export default function FrontHeader() {
-    const { props } = usePage<SharedData & { is_closed?: boolean; is_closed_until?: string | null }>();
+    const { props } = usePage<SharedData & { is_closed?: boolean; is_pmr?: boolean; is_closed_until?: string | null }>();
     const isClosed = Boolean(props.is_closed);
     const closedUntil = (props.is_closed_until as string | null) ?? null;
     const scrollToContact = useCallback((e?: React.MouseEvent) => {
@@ -34,6 +34,7 @@ export default function FrontHeader() {
                     Le restaurant est actuellement fermé{closedUntil ? ` jusqu'au ${closedUntil}` : ''}.
                 </div>
             )}
+
             <header className="sticky top-0 z-40 w-full border-b border-neutral-200/70 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:border-neutral-800/70 dark:bg-neutral-900/60">
             <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-6">
                 <Link href={route('home')} className="flex items-center gap-2">
