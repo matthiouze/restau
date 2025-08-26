@@ -32,7 +32,7 @@ export default function FrontFooter() {
 
     return (
         <footer id="contact" className="border-t border-neutral-200 bg-neutral-50 dark:bg-neutral-950">
-            <div className="bg-green-50 dark:bg-green-950/20 py-12">
+            <div className="bg-green-50 dark:bg-green-950/20 py-6">
                 <div className="mx-auto max-w-6xl px-4 md:px-6">
                     <div className="text-center mb-8">
                         <h3 className="text-2xl font-semibold text-neutral-900 dark:text-neutral-100">Contact</h3>
@@ -163,7 +163,7 @@ export default function FrontFooter() {
 
             <div className="h-px bg-neutral-200 dark:bg-neutral-800"></div>
 
-            <div className="bg-neutral-100 dark:bg-neutral-900 py-12">
+            <div className="bg-neutral-100 dark:bg-neutral-900 py-6">
                 <div className="mx-auto max-w-6xl px-4 md:px-6">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div itemScope itemType="https://schema.org/Restaurant">

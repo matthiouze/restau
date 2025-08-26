@@ -49,7 +49,7 @@ export default function Index() {
                 </div>
             </section>
 
-            <main className="mx-auto max-w-6xl px-4 py-16 md:px-6">
+            <main className="mx-auto max-w-6xl px-4 py-6 md:px-6">
                 <div className="mx-auto max-w-3xl text-center">
                     <h2 className="text-2xl font-semibold text-neutral-900 dark:text-neutral-100">Une expérience gourmande</h2>
                     <p className="mt-4 text-neutral-600 dark:text-neutral-300">
