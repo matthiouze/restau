@@ -5,6 +5,7 @@ import type { SharedData, Timetable } from '@/types';
 export default function FrontFooter() {
     const { props } = usePage<{ ziggy: unknown } & SharedData>();
     const timetables = (props.timetables as Timetable[] | undefined) ?? [];
+    const isPmr = Boolean(props.is_pmr);
     const { data, setData, post, processing, reset } = useForm({
         name: '',
         email: '',
@@ -178,6 +179,11 @@ export default function FrontFooter() {
                                     <span itemProp="postalCode">75001</span> <span itemProp="addressLocality">Paris</span>, <span itemProp="addressCountry">France</span>
                                 </p>
                             </div>
+                            {isPmr && (
+                                <p className="font-medium text-neutral-800 dark:text-neutral-200">
+                                    Etablissement accessible aux personnes à mobilité réduite
+                                </p>
+                            )}
                         </div>
 
                         <div itemProp="contactPoint" itemScope itemType="https://schema.org/ContactPoint">

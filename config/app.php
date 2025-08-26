@@ -17,6 +17,7 @@ return [
     'mail_admin' => env('MAIL_ADMIN'),
     'is_closed' => env('IS_CLOSED', false),
     'is_closed_until' => env('IS_CLOSED_UNTIL'),
+    'is_pmr' => env('IS_PMR', false),
 
     /*
     |--------------------------------------------------------------------------

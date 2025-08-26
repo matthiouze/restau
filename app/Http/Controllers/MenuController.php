@@ -26,8 +26,6 @@ class MenuController extends Controller
 
         return Inertia::render('menu', [
             'items'           => $items,
-            'is_closed'       => config('app.is_closed'),
-            'is_closed_until' => config('app.is_closed') ? config('app.is_closed_until') : null,
         ]);
     }
 
@@ -53,8 +51,6 @@ class MenuController extends Controller
                 'preview_url' => $item->getFirstMediaUrl('media') ?: null,
             ],
             'gallery' => $gallery,
-            'is_closed'       => config('app.is_closed'),
-            'is_closed_until' => config('app.is_closed') ? config('app.is_closed_until') : null,
         ]);
     }
 }
