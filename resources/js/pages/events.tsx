@@ -30,7 +30,8 @@ export default function Event({ events }: PageProps) {
 
     return (
         <FrontLayout>
-            <Head title="Événements">
+            <Head>
+                <title>Événements</title>
                 <meta name="description" content="Liste des événements" />
             </Head>
 

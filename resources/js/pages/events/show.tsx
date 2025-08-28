@@ -18,7 +18,8 @@ export default function MenuShow({ event }: PageProps) {
 
     return (
         <FrontLayout>
-            <Head title={event.title}>
+            <Head>
+                <title>{event.title}</title>
                 <meta name="description" content="Meta desc event show" />
             </Head>
             <section className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:px-8">

@@ -19,7 +19,8 @@ export default function MenuIndex({ items }: PageProps) {
 
     return (
         <FrontLayout>
-            <Head title="Menu">
+            <Head>
+                <title>Menu</title>
                 <meta name="description" content="Meta desc menu" />
             </Head>
             <section className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
