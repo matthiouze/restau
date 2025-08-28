@@ -18,6 +18,7 @@ return [
     'is_closed' => env('IS_CLOSED', false),
     'is_closed_until' => env('IS_CLOSED_UNTIL'),
     'is_pmr' => env('IS_PMR', false),
+    'open_events' => env('OPEN_EVENTS', false),
 
     /*
     |--------------------------------------------------------------------------

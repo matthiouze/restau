@@ -5,12 +5,15 @@ use Inertia\Inertia;
 use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\TimetableController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FrontController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\EventController;
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [FrontController::class, 'index'])->name('home');
 Route::get('menu', [MenuController::class, 'index'])->name('menu');
+Route::get('evenements', [FrontController::class, 'events'])->name('events');
+Route::get('evenements/{event}', [FrontController::class, 'showEvent'])->name('events.show');
 Route::get('menu/{slug}', [MenuController::class, 'show'])->name('menu.show');
 Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
 Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
@@ -33,6 +36,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('timetables', [TimetableController::class, 'index'])->name('timetables.index');
     Route::put('timetables', [TimetableController::class, 'update'])->name('timetables.update');
+
+    Route::name('events.')
+        ->prefix('events')
+        ->group(function () {
+            Route::get('', [EventController::class, 'index'])->name('index');
+            Route::get('create', [EventController::class, 'create'])->name('create');
+            Route::get('{event}/edit', [EventController::class, 'edit'])->name('edit');
+            Route::post('store', [EventController::class, 'store'])->name('store');
+            Route::put('{event}/update', [EventController::class, 'update'])->name('update');
+            Route::delete('{event}/delete', [EventController::class, 'delete'])->name('delete');
+    });
+
 });
 
 require __DIR__.'/settings.php';

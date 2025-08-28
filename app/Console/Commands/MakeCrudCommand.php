@@ -11,7 +11,7 @@ class MakeCrudCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'make:crud {--model}';
+    protected $signature = 'make:crud {model}';
 
     /**
      * The console command description.
@@ -25,7 +25,7 @@ class MakeCrudCommand extends Command
      */
     public function handle()
     {
-        $model = $this->option('model');
+            $model = $this->argument('model');
 
         $this->call('make:model', ['name' => $model]);
         $this->call('make:controller', ['name' => $model.'Controller']);

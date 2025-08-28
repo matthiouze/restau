@@ -7,8 +7,14 @@ import type { SharedData } from '@/types';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 
 export default function FrontHeader() {
-    const { props } = usePage<SharedData & { is_closed?: boolean; is_pmr?: boolean; is_closed_until?: string | null }>();
+    const { props } = usePage<SharedData & {
+        is_closed?: boolean;
+        is_pmr?: boolean;
+        is_closed_until?: string;
+        open_events?: boolean;
+    }>();
     const isClosed = Boolean(props.is_closed);
+    const openEvents = Boolean(props.open_events);
     const closedUntil = (props.is_closed_until as string | null) ?? null;
     const scrollToContact = useCallback((e?: React.MouseEvent) => {
         if (e) e.preventDefault();
@@ -24,6 +30,11 @@ export default function FrontHeader() {
             <li>
                 <Link href={route('menu')} className="text-neutral-700 hover:text-neutral-900 dark:text-neutral-200 dark:hover:text-white">Menu</Link>
             </li>
+            {openEvents ? (
+                <li>
+                    <Link href={route('events')} className="text-neutral-700 hover:text-neutral-900 dark:text-neutral-200 dark:hover:text-white">Evènements</Link>
+                </li>
+            ) : ''}
         </ul>
     );
 
@@ -73,12 +84,23 @@ export default function FrontHeader() {
                                     <ul className="flex flex-col gap-4 text-base font-medium">
                                         <li>
                                             <SheetClose asChild>
-                                                <Link href={route('home')} className="text-neutral-700 hover:text-neutral-900 dark:text-neutral-200 dark:hover:text-white">Accueil</Link>
+                                                <Link href={route('home')} className="text-neutral-700 hover:text-neutral-900 dark:text-neutral-200 dark:hover:text-white">
+                                                    Accueil
+                                                </Link>
                                             </SheetClose>
                                         </li>
                                         <li>
                                             <SheetClose asChild>
-                                                <Link href={route('menu')} className="text-neutral-700 hover:text-neutral-900 dark:text-neutral-200 dark:hover:text-white">Menu</Link>
+                                                <Link href={route('menu')} className="text-neutral-700 hover:text-neutral-900 dark:text-neutral-200 dark:hover:text-white">
+                                                    Menu
+                                                </Link>
+                                            </SheetClose>
+                                        </li>
+                                        <li>
+                                            <SheetClose asChild>
+                                                <Link href={route('events')} className="text-neutral-700 hover:text-neutral-900 dark:text-neutral-200 dark:hover:text-white">
+                                                    Evènements
+                                                </Link>
                                             </SheetClose>
                                         </li>
                                         <li>

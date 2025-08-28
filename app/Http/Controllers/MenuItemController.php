@@ -26,19 +26,19 @@ class MenuItemController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'slug' => ['required', 'string', 'max:255', 'alpha_dash', Rule::unique('menu_items', 'slug')],
+            'name'        => ['required', 'string', 'max:255'],
+            'slug'        => ['required', 'string', 'max:255', 'alpha_dash', Rule::unique('menu_items', 'slug')],
             'ingredients' => ['nullable', 'string'],
-            'price' => ['required', 'numeric', 'min:0'],
-            'media' => ['nullable', 'array'],
-            'media.*' => ['file', 'mimes:jpg,jpeg,png,webp,gif', 'max:12288'],
+            'price'       => ['required', 'numeric', 'min:0'],
+            'media'       => ['nullable', 'array'],
+            'media.*'     => ['file', 'mimes:jpg,jpeg,png,webp,gif', 'max:12288'],
         ]);
 
         $menuItem = MenuItem::create([
-            'name' => $validated['name'],
-            'slug' => $validated['slug'],
+            'name'        => $validated['name'],
+            'slug'        => $validated['slug'],
             'ingredients' => $validated['ingredients'] ?? null,
-            'price' => $validated['price'],
+            'price'       => $validated['price'],
         ]);
 
         if ($request->hasFile('media')) {
@@ -58,21 +58,21 @@ class MenuItemController extends Controller
     {
         $media = $menuItem->getMedia('media')->map(function ($media) {
             return [
-                'id' => $media->id,
-                'name' => $media->name,
+                'id'        => $media->id,
+                'name'      => $media->name,
                 'file_name' => $media->file_name,
-                'url' => $media->getUrl(),
+                'url'       => $media->getUrl(),
             ];
         });
 
         return Inertia::render('menu-items/edit', [
             'menuItem' => [
-                'id' => $menuItem->id,
-                'name' => $menuItem->name,
-                'slug' => $menuItem->slug,
+                'id'          => $menuItem->id,
+                'name'        => $menuItem->name,
+                'slug'        => $menuItem->slug,
                 'ingredients' => $menuItem->ingredients,
-                'price' => $menuItem->price,
-                'media' => $media,
+                'price'       => $menuItem->price,
+                'media'       => $media,
             ],
         ]);
     }
@@ -80,26 +80,26 @@ class MenuItemController extends Controller
     public function update(MenuItem $menuItem, Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'name' => ['required', 'max:255'],
-            'slug' => [
+            'name'               => ['required', 'max:255'],
+            'slug'               => [
                 'required',
                 'max:255',
                 'alpha_dash',
                 Rule::unique('menu_items', 'slug')->ignore($menuItem->id),
             ],
-            'ingredients' => ['nullable'],
-            'price' => ['required', 'numeric', 'min:0'],
-            'media' => ['nullable', 'array'],
-            'media.*' => ['file', 'mimes:jpg,jpeg,png,webp,gif', 'max:12288'],
-            'remove_media_ids' => ['nullable', 'array'],
+            'ingredients'        => ['nullable'],
+            'price'              => ['required', 'numeric', 'min:0'],
+            'media'              => ['nullable', 'array'],
+            'media.*'            => ['file', 'mimes:jpg,jpeg,png,webp,gif', 'max:12288'],
+            'remove_media_ids'   => ['nullable', 'array'],
             'remove_media_ids.*' => ['integer'],
         ]);
 
         $menuItem->update([
-            'name' => $validated['name'],
-            'slug' => $validated['slug'],
+            'name'        => $validated['name'],
+            'slug'        => $validated['slug'],
             'ingredients' => $validated['ingredients'] ?? null,
-            'price' => $validated['price'],
+            'price'       => $validated['price'],
         ]);
 
         $idsToRemove = collect($request->input('remove_media_ids', []))
