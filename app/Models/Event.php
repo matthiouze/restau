@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -18,6 +19,11 @@ class Event extends Model implements HasMedia
         'start_date' => 'datetime:d/m/Y',
         'end_date'   => 'datetime:d/m/Y',
     ];
+
+    public function meta(): MorphOne
+    {
+        return $this->morphOne(Meta::class, 'metable');
+    }
 
     public function scopePublished(Builder $query)
     {

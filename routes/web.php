@@ -9,6 +9,7 @@ use App\Http\Controllers\FrontController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\MetaController;
 
 Route::get('/', [FrontController::class, 'index'])->name('home');
 Route::get('menu', [MenuController::class, 'index'])->name('menu');
@@ -47,6 +48,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('{event}/update', [EventController::class, 'update'])->name('update');
             Route::delete('{event}/delete', [EventController::class, 'delete'])->name('delete');
     });
+
+    Route::name('metas.')
+        ->prefix('metas')
+        ->group(function () {
+            Route::get('', [MetaController::class, 'index'])->name('index');
+            Route::get('create', [MetaController::class, 'create'])->name('create');
+            Route::get('{meta}/edit', [MetaController::class, 'edit'])->name('edit');
+            Route::post('store', [MetaController::class, 'store'])->name('store');
+            Route::put('{meta}/update', [MetaController::class, 'update'])->name('update');
+            Route::delete('{meta}/delete', [MetaController::class, 'delete'])->name('delete');
+        });
 
 });
 

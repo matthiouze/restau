@@ -23,6 +23,7 @@ class EventController extends Controller
             'events' => Event::query()->orderBy('start_date')->get()
         ]);
     }
+
     public function create(): Response
     {
         return Inertia::render('events/create');
@@ -80,14 +81,39 @@ class EventController extends Controller
         ]);
     }
 
-    public function update(Event $model, Request $request): RedirectResponse
+    public function update(Event $event, Request $request): RedirectResponse
     {
+        $validated = $request->validate([
+            'title'       => ['required', 'string', 'max:255'],
+            'start_date'  => ['required', 'date'],
+            'end_date'    => ['required', 'date'],
+            'description' => ['required'],
+            'published'   => ['boolean'],
+            'media'       => ['nullable', 'mimes:jpg,jpeg,png,webp,gif', 'max:12288'],
+        ]);
+
+        $event->update([
+            'title'       => $validated['title'],
+            'start_date'  => $validated['start_date'],
+            'end_date'    => $validated['end_date'],
+            'description' => $validated['description'] ?? null,
+            'published'   => $validated['published'],
+        ]);
+
+        if ($request->hasFile('media')) {
+            $event->deleteMedia($event->media()->first()->id);
+
+            $event
+                ->addMedia($request->file('media'))
+                ->toMediaCollection('media');
+        }
+
         return back();
     }
 
-    public function delete(Event $model): RedirectResponse
+    public function delete(Event $event): RedirectResponse
     {
-        $model->delete();
+        $event->delete();
 
         return back();
     }
